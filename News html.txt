@@ -1,0 +1,306 @@
+News.html
+
+// News and events functionality
+class PROSANews {
+    constructor() {
+        this.newsData = [
+            {
+                id: 1,
+                title: 'PROSA Leads Successful Education Funding Rally',
+                excerpt: 'Over 1,000 students gathered to demand increased education funding and student support services.',
+                content: 'Full article content here...',
+                category: 'success',
+                date: '2024-03-15',
+                image: 'images/news/rally-success.jpg',
+                author: 'Maria Rodriguez'
+            },
+            {
+                id: 2,
+                title: 'Upcoming: Climate Action Workshop',
+                excerpt: 'Join us for a hands-on workshop on climate activism and sustainable campus initiatives.',
+                content: 'Full event details here...',
+                category: 'events',
+                date: '2024-03-25',
+                image: 'images/news/climate-workshop.jpg',
+                author: 'James Chen'
+            },
+            {
+                id: 3,
+                title: 'PROSA Featured in National Student Magazine',
+                excerpt: 'Our work on student rights has been recognized in the latest issue of Student Voice Magazine.',
+                content: 'Full press release here...',
+                category: 'press',
+                date: '2024-03-10',
+                image: 'images/news/press-feature.jpg',
+                author: 'Sarah Johnson'
+            }
+        ];
+
+        this.eventsData = [
+            {
+                id: 1,
+                title: 'Monthly General Meeting',
+                date: '2024-04-01',
+                time: '6:00 PM',
+                location: 'Student Union Room 204',
+                type: 'meeting'
+            },
+            {
+                id: 2,
+                title: 'Community Service Day',
+                date: '2024-04-05',
+                time: '9:00 AM - 2:00 PM',
+                location: 'Local Community Center',
+                type: 'service'
+            },
+            {
+                id: 3,
+                title: 'Protest March for Education',
+                date: '2024-04-10',
+                time: '12:00 PM',
+                location: 'State Capitol Building',
+                type: 'protest'
+            }
+        ];
+
+        this.currentCategory = 'all';
+        this.currentMonth = new Date().getMonth();
+        this.currentYear = new Date().getFullYear();
+
+        this.init();
+    }
+
+    init() {
+        this.setupCategoryFilters();
+        this.setupCalendar();
+        this.renderNews();
+        this.renderEvents();
+        this.setupNewsletter();
+    }
+
+    setupCategoryFilters() {
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                this.currentCategory = tab.getAttribute('data-category');
+                this.renderNews();
+            });
+        });
+    }
+
+    setupCalendar() {
+        this.renderCalendar();
+        
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        
+        if (prevMonthBtn) {
+            prevMonthBtn.addEventListener('click', () => {
+                this.currentMonth--;
+                if (this.currentMonth < 0) {
+                    this.currentMonth = 11;
+                    this.currentYear--;
+                }
+                this.renderCalendar();
+            });
+        }
+        
+        if (nextMonthBtn) {
+            nextMonthBtn.addEventListener('click', () => {
+                this.currentMonth++;
+                if (this.currentMonth > 11) {
+                    this.currentMonth = 0;
+                    this.currentYear++;
+                }
+                this.renderCalendar();
+            });
+        }
+    }
+
+    renderCalendar() {
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthElement = document.getElementById('currentMonth');
+        
+        if (!calendarGrid || !currentMonthElement) return;
+
+        // Update month header
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+        currentMonthElement.textContent = `${monthNames[this.currentMonth]} ${this.currentYear}`;
+
+        // Clear calendar
+        calendarGrid.innerHTML = '';
+
+        // Get first day of month and number of days
+        const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+        const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+
+        // Add day headers
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        dayNames.forEach(day => {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day-header';
+            dayElement.textContent = day;
+            calendarGrid.appendChild(dayElement);
+        });
+
+        // Add empty cells for days before first day of month
+        for (let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'calendar-day empty';
+            calendarGrid.appendChild(emptyCell);
+        }
+
+        // Add days of month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            dayElement.textContent = day;
+
+            // Check if this day has events
+            const hasEvent = this.eventsData.some(event => {
+                const eventDate = new Date(event.date);
+                return eventDate.getDate() === day && 
+                       eventDate.getMonth() === this.currentMonth && 
+                       eventDate.getFullYear() === this.currentYear;
+            });
+
+            if (hasEvent) {
+                dayElement.classList.add('has-event');
+                dayElement.addEventListener('click', () => {
+                    this.showEventsForDay(day);
+                });
+            }
+
+            calendarGrid.appendChild(dayElement);
+        }
+    }
+
+    showEventsForDay(day) {
+        const eventsList = document.getElementById('eventsList');
+        if (!eventsList) return;
+
+        const dayEvents = this.eventsData.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate.getDate() === day && 
+                   eventDate.getMonth() === this.currentMonth && 
+                   eventDate.getFullYear() === this.currentYear;
+        });
+
+        eventsList.innerHTML = '';
+
+        if (dayEvents.length === 0) {
+            eventsList.innerHTML = '<p>No events scheduled for this day.</p>';
+            return;
+        }
+
+        dayEvents.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'event-item';
+            eventElement.innerHTML = `
+                <h4>${event.title}</h4>
+                <p>${event.time} • ${event.location}</p>
+            `;
+            eventsList.appendChild(eventElement);
+        });
+    }
+
+    renderNews() {
+        const newsGrid = document.getElementById('newsGrid');
+        if (!newsGrid) return;
+
+        newsGrid.innerHTML = '';
+
+        const filteredNews = this.currentCategory === 'all' 
+            ? this.newsData 
+            : this.newsData.filter(item => item.category === this.currentCategory);
+
+        filteredNews.forEach(item => {
+            const newsItem = this.createNewsItem(item);
+            newsGrid.appendChild(newsItem);
+        });
+    }
+
+    createNewsItem(item) {
+        const div = document.createElement('div');
+        div.className = `news-item ${item.category}`;
+        div.innerHTML = `
+            <img src="${item.image}" alt="${item.title}">
+            <div class="news-content">
+                <span class="news-category">${item.category}</span>
+                <h3>${item.title}</h3>
+                <p>${item.excerpt}</p>
+                <div class="news-meta">
+                    <span>${Utils.formatDate(item.date)}</span>
+                    <span>By ${item.author}</span>
+                </div>
+                <button class="btn-secondary read-more">Read More</button>
+            </div>
+        `;
+
+        return div;
+    }
+
+    renderEvents() {
+        // Render upcoming events list
+        const eventsList = document.getElementById('eventsList');
+        if (!eventsList) return;
+
+        // Sort events by date
+        const sortedEvents = [...this.eventsData].sort((a, b) => 
+            new Date(a.date) - new Date(b.date)
+        );
+
+        sortedEvents.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'event-item';
+            eventElement.innerHTML = `
+                <h4>${event.title}</h4>
+                <p>${Utils.formatDate(event.date)} • ${event.time}</p>
+                <p>${event.location}</p>
+                <button class="btn-secondary">RSVP</button>
+            `;
+            eventsList.appendChild(eventElement);
+        });
+    }
+
+    setupNewsletter() {
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = newsletterForm.querySelector('input[type="email"]').value;
+                
+                if (Utils.validateEmail(email)) {
+                    this.subscribeNewsletter(email);
+                } else {
+                    this.showMessage('Please enter a valid email address', 'error');
+                }
+            });
+        }
+    }
+
+    subscribeNewsletter(email) {
+        // Simulate API call
+        setTimeout(() => {
+            this.showMessage('Successfully subscribed to newsletter!', 'success');
+            document.getElementById('newsletterForm').reset();
+        }, 1000);
+    }
+
+    showMessage(message, type) {
+        // Reuse the message function from main.js
+        if (window.Utils && typeof window.Utils.showMessage === 'function') {
+            window.Utils.showMessage(message, type);
+        }
+    }
+}
+
+// Initialize news
+document.addEventListener('DOMContentLoaded', () => {
+    new PROSANews();
+});

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Involved - PROSA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Copy header from index.html -->
+    </header>
+
+    <!-- Get Involved Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Get Involved</h1>
+            <p>Join our movement and help create meaningful change</p>
+        </div>
+    </section>
+
+    <!-- Involvement Options -->
+    <section class="involvement-options">
+        <div class="container">
+            <div class="options-nav">
+                <button class="option-tab active" data-option="membership">Become a Member</button>
+                <button class="option-tab" data-option="volunteer">Volunteer</button>
+                <button class="option-tab" data-option="donate">Donate</button>
+                <button class="option-tab" data-option="partner">Partnership</button>
+            </div>
+
+            <!-- Membership Form -->
+            <div class="option-content active" id="membership">
+                <form class="membership-form" id="membershipForm">
+                    <h2>Join PROSA</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="university">University *</label>
+                            <input type="text" id="university" name="university" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentId">Student ID</label>
+                            <input type="text" id="studentId" name="studentId">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="major">Major/Program</label>
+                        <input type="text" id="major" name="major">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Areas of Interest</label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox">
+                                <input type="checkbox" name="interests" value="advocacy">
+                                <span>Advocacy & Campaigns</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="interests" value="education">
+                                <span>Education & Training</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="interests" value="community">
+                                <span>Community Outreach</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="interests" value="sustainability">
+                                <span>Sustainability</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="motivation">Why do you want to join PROSA? *</label>
+                        <textarea id="motivation" name="motivation" required
+                            placeholder="Share your motivation for joining our movement..."></textarea>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <label>
+                            <input type="checkbox" name="agree" required>
+                            <span>I agree to receive communications from PROSA and abide by our code of conduct</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Join PROSA</button>
+                </form>
+            </div>
+
+            <!-- Donation Form -->
+            <div class="option-content" id="donate">
+                <form class="donation-form" id="donationForm">
+                    <h2>Support Our Work</h2>
+                    <div class="donation-amounts">
+                        <h3>Select Amount</h3>
+                        <div class="amount-options">
+                            <button type="button" class="amount-btn" data-amount="25">$25</button>
+                            <button type="button" class="amount-btn" data-amount="50">$50</button>
+                            <button type="button" class="amount-btn" data-amount="100">$100</button>
+                            <div class="custom-amount">
+                                <label>Other: $</label>
+                                <input type="number" id="customAmount" min="1" placeholder="Enter amount">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="donorName">Full Name *</label>
+                            <input type="text" id="donorName" name="donorName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="donorEmail">Email *</label>
+                            <input type="email" id="donorEmail" name="donorEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod" name="paymentMethod">
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="bank">Bank Transfer</option>
+                        </select>
+                    </div>
+
+                    <div class="donation-impact">
+                        <h4>Your Impact:</h4>
+                        <ul>
+                            <li>$25 funds educational materials for 10 students</li>
+                            <li>$50 supports one community workshop</li>
+                            <li>$100 helps organize a campus awareness event</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Donate Now</button>
+                </form>
+            </div>
+
+            <!-- Add Volunteer and Partnership forms similarly -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Copy footer from index.html -->
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/forms.js"></script>
+</body>
+
+</html>
